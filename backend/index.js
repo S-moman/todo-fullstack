@@ -1,21 +1,19 @@
-import express from 'express'
-import cors from 'cors'
-import 'dotenv/config'
-import connectDB from './db.js'
+import express from "express";
+import cors from "cors";
+import "dotenv/config";
+import connectDB from "./db.js";
 
-
-
-const app = express()
+const app = express();
 
 const port = process.env.PORT;
 
-app.use(cors())
+app.use(cors());
 
-app.get('/', (req, res) => {
-    res.json('Hello world (from server)')
-})
+app.get("/", (req, res) => {
+  res.json("Hello world (from server)");
+});
 
 app.listen(port, () => {
-    console.log(`Listening on port ${port}...`)
-    connectDB()
-})
+  console.log(`Listening on port ${port}...`);
+  connectDB();
+});
