@@ -5,8 +5,8 @@ import "./App.css";
 
 //Create - POST
 //Read - GET
-//Update -
-// Delete
+//Update - PUT/PATCH
+// Delete - DELETE
 
 
 function App() {
@@ -42,13 +42,18 @@ function App() {
     } catch (e) {
       console.log(e.message);
     }
+    inputRef.current.value = ''
   }
 
   async function handleDelete(id) {
     console.log('handle delete')
     try {
-    const response = await fetch(`http://localhost:8080/todos/${id}`)
-    const result = response.json()
+    const response = await fetch(`http://localhost:8080/todos/${id}`, {
+      method: "DELETE",
+    })
+    const result = await response.json()
+    const newTodos = todos.filter((todo) => todo._id !== id)
+    setTodos(newTodos)
     } catch(e) {
       console.log(e.message)
     }
