@@ -66,6 +66,14 @@ function App() {
     })
     const result = await response.json()
     console.log(result)
+     const updatedTodos = todos.map((todo) => (todo._id === id ? { ...todo, completed: !todo.completed } : todo))
+    // const updatedTodos = todos.map((todo) => {
+    //   if(todo._id === id) {
+    //   return {...todo, completed: !todo.completed}
+    //   }
+    //   return todo
+    // })
+    setTodos(updatedTodos)
     } catch(e) {
        console.log(e.message);
     }
