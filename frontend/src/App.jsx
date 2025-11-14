@@ -8,7 +8,6 @@ import "./App.css";
 //Update - PUT/PATCH
 // Delete - DELETE
 
-
 function App() {
   const [todos, setTodos] = useState([]);
   const inputRef = useRef(null);
@@ -42,20 +41,33 @@ function App() {
     } catch (e) {
       console.log(e.message);
     }
-    inputRef.current.value = ''
+    inputRef.current.value = "";
   }
 
   async function handleDelete(id) {
-    console.log('handle delete')
+    console.log("handle delete");
+    try {
+      const response = await fetch(`http://localhost:8080/todos/${id}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+      console.log(result)
+      const newTodos = todos.filter((todo) => todo._id !== id);
+      setTodos(newTodos);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
+  async function handleUpdate(id) {
     try {
     const response = await fetch(`http://localhost:8080/todos/${id}`, {
-      method: "DELETE",
+      method: "PUT"
     })
     const result = await response.json()
-    const newTodos = todos.filter((todo) => todo._id !== id)
-    setTodos(newTodos)
+    console.log(result)
     } catch(e) {
-      console.log(e.message)
+       console.log(e.message);
     }
   }
 
@@ -72,7 +84,7 @@ function App() {
             <input
               type="checkbox"
               checked={todo.completed}
-              onChange={() => {}}
+              onChange={() => handleUpdate(todo._id)}
             />
             {todo.text}
             <button onClick={() => handleDelete(todo._id)}>x</button>

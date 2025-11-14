@@ -47,6 +47,18 @@ app.delete('/todos/:id', async (req, res) => {
     }
 })
 
+app.put('/todos/:id', async (req, res) => {
+    try {
+       const todo = await Todo.findById(req.params.id)
+        todo.completed = !todo.completed
+        await todo.save()
+        res.status(200).json(todo)
+    }catch(e) {
+         console.log(e.message)
+        res.status(400).json({ error: e.message })
+    }
+})
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
