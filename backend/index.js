@@ -8,6 +8,7 @@ const app = express();
 
 const port = process.env.PORT;
 
+app.use(express.json())
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -24,6 +25,18 @@ app.get('/todos', async (req, res) => {
     }
     
 })
+
+app.post('/todos', async (req, res) => {
+    try {
+        console.log(req.body)
+    const todo = await Todo.create(req.body)
+    res.status(200).json(todo)
+    } catch(e){
+         console.error(e.message)
+        res.status(400).json({ error: e.message })
+    }
+})
+
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}...`);
