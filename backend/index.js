@@ -6,14 +6,15 @@ import todosRoutes from "./routes/todos.js";
 
 const app = express();
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 app.use(express.json())
 app.use(cors());
+
 app.use('/todos', todosRoutes)
 
 app.get("/", (req, res) => {
-  res.json("Hello world (from server)");
+  res.json("Hello world (from server), lets get it started!!!");
 });
 
 
