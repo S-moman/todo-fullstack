@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
+export const BASE_URL = import.meta.env.VITE_BASE_URL
+
 //CRUD
 
 //Create - POST
@@ -14,7 +16,7 @@ function App() {
 
   useEffect(() => {
     async function getTodos() {
-      const response = await fetch("http://localhost:8080/todos");
+      const response = await fetch(`${BASE_URL}/todos`);
       const data = await response.json();
       console.log(data);
       setTodos(data);
@@ -28,7 +30,7 @@ function App() {
       text: inputRef.current.value,
     };
     try {
-      const response = await fetch("http://localhost:8080/todos", {
+      const response = await fetch(`${BASE_URL}/todos`, {
         method: "POST",
         body: JSON.stringify(todo),
         headers: {
@@ -47,7 +49,7 @@ function App() {
   async function handleDelete(id) {
     console.log("handle delete");
     try {
-      const response = await fetch(`http://localhost:8080/todos/${id}`, {
+      const response = await fetch(`${BASE_URL}/todos/${id}`, {
         method: "DELETE",
       });
       const result = await response.json();
@@ -67,12 +69,6 @@ function App() {
     const result = await response.json()
     console.log(result)
      const updatedTodos = todos.map((todo) => (todo._id === id ? { ...todo, completed: !todo.completed } : todo))
-    // const updatedTodos = todos.map((todo) => {
-    //   if(todo._id === id) {
-    //   return {...todo, completed: !todo.completed}
-    //   }
-    //   return todo
-    // })
     setTodos(updatedTodos)
     } catch(e) {
        console.log(e.message);
